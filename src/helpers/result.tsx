@@ -5,7 +5,6 @@ export const StatusAtivo = [
 
 export const selectedResult = status => {
   let selected = StatusAtivo.find(e => e.id === status);
-  console.log(selected);
   return (
     <div
       style={{

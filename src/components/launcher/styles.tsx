@@ -40,3 +40,11 @@ export const ParagrafoContainer = styled.p`
   margin-left: 15px;
   color: black;
 `;
+
+export const CardFailue = styled.div`
+  display: inline-block;
+  color: red;
+`;
+export const CardSucess = styled.div`
+  display: inline-block;
+`;

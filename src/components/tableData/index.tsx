@@ -159,17 +159,19 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function TableData(props: any) {
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState<any[]>([]);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState<any>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  // setRows(props.dados);
+  useEffect(() => {
+    setRows(props.dados);
+  }, [props.dados]);
 
   useEffect(() => {
-    console.log(props.dados);
+    console.log(rows);
   }, [rows]);
 
   const handleRequestSort = (event, property) => {
@@ -214,7 +216,7 @@ export default function TableData(props: any) {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(props.dados, getComparator(order, orderBy)).slice(
+      stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
@@ -239,53 +241,58 @@ export default function TableData(props: any) {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+              {rows.length > 0 &&
+                rows.map((row, index) => {
+                  const isItemSelected = isSelected(row.flight_number);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => handleClick(event, row.flight_number)}
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.flight_number}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                      align="center"
+                  return (
+                    <TableRow
+                      hover
+                      onClick={event => handleClick(event, row.flight_number)}
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.flight_number}
+                      selected={isItemSelected}
+                      sx={{ cursor: "pointer" }}
                     >
-                      {row.flight_number}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row.links.mission_patch_small}
-                    </TableCell>
-                    <TableCell align="center">{row.mission_name}</TableCell>
-                    <TableCell align="center">
-                      {formatDate(row.launch_date_local)}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row.rocket.rocket_name}
-                    </TableCell>
-                    <TableCell align="center">
-                      {selectedResult(row.launch_success)}
-                    </TableCell>
-                    <TableCell align="center">
-                      <ImgContainer
-                        onClick={() => handleLink(row.links.video_link)}
-                        src={youtube}
-                        className="active"
-                        alt="foguete"
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        align="center"
+                      >
+                        {row.flight_number}
+                      </TableCell>
+                      <TableCell align="center">
+                        <ImgContainer
+                          src={row.links.mission_patch_small}
+                          className="logo"
+                          alt="foguete"
+                        />
+                      </TableCell>
+                      <TableCell align="center">{row.mission_name}</TableCell>
+                      <TableCell align="center">
+                        {formatDate(row.launch_date_local)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.rocket.rocket_name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {selectedResult(row.launch_success)}
+                      </TableCell>
+                      <TableCell align="center">
+                        <ImgContainer
+                          onClick={() => handleLink(row.links.video_link)}
+                          src={youtube}
+                          className="active"
+                          alt="foguete"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow>
                   <TableCell colSpan={6} />

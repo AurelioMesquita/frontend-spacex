@@ -29,6 +29,7 @@ export const BodyContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0px;
+  overflow-y: auto;
 
   padding: px;
 `;

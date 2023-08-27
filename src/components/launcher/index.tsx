@@ -6,7 +6,10 @@ import {
   CardContainer,
   CardContainerTitulo,
   ParagrafoContainer,
+  CardSucess,
+  CardFailue,
 } from "./styles";
+import { checkFailue, checkSucess } from "../../helpers/verificaSucesso";
 
 Chart.register(CategoryScale);
 
@@ -29,8 +32,18 @@ export default function Launcher(props: any) {
       <div>
         <PieChart chartData={chartData} />
         <CardContainerTitulo>Resultado de lançamento</CardContainerTitulo>
-        <ParagrafoContainer>Sucesso</ParagrafoContainer>
-        <ParagrafoContainer>Falha</ParagrafoContainer>
+        <CardSucess>
+          <ParagrafoContainer>Sucesso</ParagrafoContainer>
+          <ParagrafoContainer style={{ color: "green", fontWeight: "bold" }}>
+            {checkSucess(props.dados)}
+          </ParagrafoContainer>
+        </CardSucess>
+        <CardFailue>
+          <ParagrafoContainer>Falha</ParagrafoContainer>
+          <ParagrafoContainer style={{ color: "red", fontWeight: "bold" }}>
+            {checkFailue(props.dados)}
+          </ParagrafoContainer>
+        </CardFailue>
       </div>
     </CardContainer>
   );
