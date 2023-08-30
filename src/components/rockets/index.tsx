@@ -12,10 +12,15 @@ export default function Rockets(props: any) {
 
   const handleChange = busca => {
     const find = busca.target.value;
-    const buscafiltrado = props.dados.filter(check => {
+    const buscafiltrado = props.dados.results.filter(check => {
       return (
-        check.mission_name.toLowerCase().includes(find.toLowerCase()) ||
-        check.rocket.rocket_name.toLowerCase().includes(find.toLowerCase())
+        check.name.toLowerCase().includes(find.toLowerCase()) ||
+        check.rocket
+          .toLowerCase()
+          .includes(
+            find.toLowerCase() ||
+              check.success.toLowerCase().includes(find.toLowerCase()),
+          )
       );
     });
     setRows(buscafiltrado);

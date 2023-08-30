@@ -28,7 +28,7 @@ export default function Launcher(props: any) {
   });
 
   return (
-    <CardContainer id={props.dados.id}>
+    <CardContainer data-testid="launcher-card" id={props.dados.id}>
       <div>
         <PieChart chartData={chartData} />
         <CardContainerTitulo>Resultado de lançamento</CardContainerTitulo>
